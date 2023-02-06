@@ -1,7 +1,7 @@
 <?php
 
 class Work_jdb {
-    public $file = 'jdb/users.txt';
+    public $file = 'jdb/users.json';
     public $file_handle;
     
     public $login;
@@ -14,7 +14,7 @@ class Work_jdb {
         if (file_exists($this->file)==false) {
             $this->file_handle = fopen($this->file, "x+");
         } else {
-            $this->file_handle = fopen($this->file, "a");
+            $this->file_handle = fopen($this->file, "r");
         }
         return "connected to jdb";
     }
@@ -30,12 +30,11 @@ class Work_jdb {
 
         $lines = file_get_contents($this->file);
         if (strlen($lines>0)) {
-            $lines_array = explode(';', $lines);
-            array_pop($lines_array);
+            $lines_array = json_decode($lines, true);
             if (empty($lines_array)==false){
                 foreach ($lines_array as $line_num => $line) {
-                    $data_arr = json_decode($line);
-                    foreach ($data_arr as $k => $v) {
+                    
+                    foreach ($line as $k => $v) {
                         if ($k == $key_name) {
                             if ($v == $value) {
                                 return false;
@@ -48,21 +47,18 @@ class Work_jdb {
         return true;
     }
 
-    public function delete_line($key_name, $value) //need improvements
+    public function delete_line($key_name, $value)
     {
         $lines = file_get_contents($this->file);
         if (strlen($lines>0)) {
-            $lines_array = explode(';', $lines);
-            array_pop($lines_array);
+            $lines_array = json_decode($lines, true);
             foreach ($lines_array as $line_num => $line) {
-                $data_arr = json_decode($line);
                 
-                foreach ($data_arr as $k => $v) {
+                foreach ($line as $k => $v) {
                     if ($k == $key_name) {
                         if ($v == $value) {
                             unset($lines_array[$line_num]);
-                            $updated_srting = implode(";", $data_arr);
-                            $updated_srting = $updated_srting.";";
+                            $updated_srting = json_encode($lines_array);
                             fclose($this->file_handle);
                             $this->file_handle = fopen($this->file, "w+");
                             fwrite($this->file_handle, $updated_srting);
@@ -87,25 +83,35 @@ class Work_jdb {
         
         $data_arr = array('login' => $login, 'password' => $hash, 'email' => $email, 'name' => $name);
         
-        $line_to_add = json_encode($data_arr);
+        $lines = file_get_contents($this->file);
+        if (strlen($lines>0)) {
+            $lines_array = json_decode($lines, true);
+            $lines_array[count($lines_array)] = $data_arr;
+        } else {
+            $lines_array = array($data_arr);
+        }
+
+        $line_to_add = json_encode($lines_array);
+
+        fclose($this->file_handle);
+        $this->file_handle = fopen($this->file, "w+");
         fwrite($this->file_handle, $line_to_add);
-        fwrite($this->file_handle, ';');
         return $line_to_add;
     }
 
     public function logging($login, $password) {
         $lines = file_get_contents($this->file);
-        $lines_array = explode(';', $lines);
-        array_pop($lines_array);
+        $lines_array = json_decode($lines, true);
+
         if (empty($lines_array)==false){
             foreach ($lines_array as $line_num => $line) {
-                $data_arr = json_decode($line);
-                $hash = $data_arr-> {'password'}; 
+                
+                $hash = $line['password']; 
 
-                $arr_login = $data_arr-> {'login'};
+                $arr_login = $line['login'];
                 if ($arr_login == $login){
                     if (password_verify($password, $hash)){
-                        return $data_arr->{"name"};
+                        return $line["name"];
                     } else {
                         return false;
                     }

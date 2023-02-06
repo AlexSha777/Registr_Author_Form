@@ -8,18 +8,15 @@
   </head>
   <script src="js/cookies_work.js"></script>
   <body onload="checkCookies()">
-    <div class="left_menu">
+    <div class="left_menu" id="not_logged">
       <div><a class="registr" href='registration.html'> Регистрация </a> </div>
       <div><a class="authoriz" href='authorization.html'> Авторизация </a> </div>
     </div>
-    <div class="main_info">
-      <div class="not_logged" id="not_logged">
-        <h2>Hello <em> X-man</em>, зарегистрируйтесь или войдите! </h2>
-      </div>
-      <div class="logged" id="logged">
+    <div class="left_menu" id="logged">
         <h2>Hello <em id="user_name"> User</em> <a class="exit" href='exit_sess.php?page=index'> Выйти </a> </h2>
-      </div>
+    </div>
 
+    <div class="main_info">
       <div class="content">
         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
       </div>

@@ -13,8 +13,8 @@ form {
 
 input[type=text], input[type=password] {
   padding:10px;
-  border:0;
-  box-shadow:0 0 15px 4px rgba(0,0,0,0.06);
+  border:none;
+  box-shadow:0 0 15px 4px rgba(0,0,0,0.30);
   border-radius: 5px;
 }
 
@@ -22,7 +22,7 @@ input[type=text], input[type=password] {
 input[type=button] {
     margin: 10px;
     font-size: 25px;
-    border:0;
+    border:none;
     border-radius: 5px;
     margin: 10px;
     padding: 10px 20px;

@@ -27,7 +27,9 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH
   if (isset ($_POST["login"]) && $_POST["login"]){
     $login = $_POST["login"];
     $login_unique = $jdb_handle->check_unique('login', $login);
-    $pattern_login = '/[0-9a-zA-Z]{6,}/';
+    
+    $pattern_login = '/(?!.*[\W])(?!.*[\s])(?!.*[_])(?=.*[a-zA-Z0-9]){6,}/';
+
     if (preg_match($pattern_login, $login)==false) {
       $login_error = '<font color="red">Логин может состоять не менее чем из 6 символов(лат. буквы или цифры)</font>';
     }
@@ -46,9 +48,60 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH
 
   if (isset ($_POST["password"]) && $_POST["password"]){
     $password = $_POST["password"];
-    $pattern_pass = '/([0-9a-zA-Z]+){6,}/';
-    if (preg_match($pattern_pass, $password)==false) {
-      $password_error = '<font color="red">Пароль может состоять не менее чем из 6 символов(лат. буквы или цифры)</font>';
+
+    $lat_let = preg_match('@[A-Za-z]@', $password);
+    $number    = preg_match('@[0-9]@', $password);
+    $specialChars = preg_match('@[^\w]@', $password);
+    $lower_underline_Char = preg_match('@[_]@', $password);
+
+    $password_error = '';
+
+    if ($lat_let && $number && $specialChars==0 && $lower_underline_Char==0 && strlen($password) >= 6){
+        $password_error= '';
+
+    } else {
+        
+        if ($lat_let==0) {
+            if (strlen($password_error)==0) {
+                $password_error = 'Пароль должен содержать латинские буквы';
+            } else {
+                $password_error .= ', должен содержать латинские буквы';
+            }
+            
+        }
+        if ($number==0) {
+            if (strlen($password_error)==0) {
+                $password_error = 'Пароль должен содержать цифры';
+            } else {
+                $password_error .= ', должен содержать цифры';
+            }
+            
+        }
+        if ($specialChars) {
+            if (strlen($password_error)==0) {
+                $password_error = 'Пароль не должен содержать специальные символы';
+            } else {
+                $password_error .= ', не должен содержать специальные символы';
+            }
+            
+        }
+        if ($lower_underline_Char) {
+            if (strlen($password_error)==0) {
+                $password_error = 'Пароль не должен содержать нижнее подчеркивание';
+            } else {
+                $password_error .= ', не должен содержать нижнее подчеркивание';
+            }
+            
+        }
+        if (strlen($password)<6) {
+            if (strlen($password_error)==0) {
+                $password_error = 'Пароль должен быть не короче 6 символов';
+            } else {
+                $password_error .= ', должен быть не короче 6 символов';
+            }
+            
+        }
+        $password_error = '<font color="red">'.$password_error.'</font>';
     }
   }
 

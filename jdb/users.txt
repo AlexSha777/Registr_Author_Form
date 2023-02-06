@@ -1,1 +1,0 @@
-{"login":"oxygenius","password":"$2y$10$b1xeGJx9xptnZmoW7cDiZuCk8yw2Ps.lBJJoMhsgMi2T8OeZbofwS","email":"oxygenius@mail.ru","name":"alex"};
