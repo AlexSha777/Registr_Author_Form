@@ -57,7 +57,7 @@ $(document).ready(function(){
             console.log('Ответ получен: ', res);
             console.log(JSON.parse(res));
             console.log(JSON.parse(res).success);
-            if (JSON.parse(res).success==0) { // если все хорошо
+            if (JSON.parse(res).success==0) { 
                 if (JSON.parse(res).login_error!='') {
                   $('#login_error').html(JSON.parse(res).login_error);
                 } else {
@@ -89,11 +89,11 @@ $(document).ready(function(){
                   $('#name_error').html('');
                 }
                 
-            } else { // если не нравится результат
+            } else { 
                 console.log(JSON.parse(res));
-                window.location.href = 'authorization.html';
+                window.location.href = 'authorization.php';
             }
-        }).fail(function() { // если ошибка передачи
+        }).fail(function() { 
             console.log('Ошибка выполнения запроса!');
         });
     }

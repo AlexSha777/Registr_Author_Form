@@ -1,6 +1,7 @@
 <?php
 
 $_SESSION = array();
+session_name('logged_out');
 
 if (ini_get("session.use_cookies")) {
     setcookie('username', '', 3600);

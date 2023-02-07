@@ -13,20 +13,30 @@
       return "";
     }
 
-
+    function username_determine (){
+      let username = getCookie("username");
+      console.log(username);
+      if (username != "") {
+        document.getElementById('logged').style.display = "block";
+        document.getElementById("user_name").innerHTML = username;
+      } else {
+        document.getElementById('logged').style.display = "block";
+        document.getElementById("user_name").innerHTML = '???User???';
+      }
+    }
 
     function checkCookies() {
       let username = getCookie("username");
       console.log(username);
       if (username != "") {
-       //show <p class="user">
+       
         document.getElementById('logged').style.display = "block";
         document.getElementById("user_name").innerHTML = username;
-        document.getElementById('not_logged').style.display = "none";
+        
 
       } else {
         document.getElementById('logged').style.display = "none";
         document.getElementById("user_name").innerHTML = 'User';
-        document.getElementById('not_logged').style.display = "block";
+        
       }
     }

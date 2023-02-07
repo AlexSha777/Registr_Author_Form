@@ -29,7 +29,9 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH
   $user_name = $jdb_handle->logging($login,$password);
 
   if ($user_name){
+    
     session_start();
+
     setcookie("username", $user_name);
     echo json_encode(array('success' =>1 , 'user_name'=>$user_name));
   } else {

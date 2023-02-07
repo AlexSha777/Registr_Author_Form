@@ -43,7 +43,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH
     if (preg_match($pattern_email, $email)==false) {
       $email_error = '<font color="red">Неверно веден E-mail</font>';
     }
-    //echo json_encode(array('login'=>$login));
+    
   }
 
   if (isset ($_POST["password"]) && $_POST["password"]){

@@ -39,7 +39,7 @@ $(document).ready(function(){
                 console.log(JSON.parse(res));
                 window.location.assign('index.html');
             }
-        }).fail(function() { // если ошибка передачи
+        }).fail(function() {
             console.log('Ошибка выполнения запроса!');
         });
     }
