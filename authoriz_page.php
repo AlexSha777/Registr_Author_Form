@@ -17,7 +17,7 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH
     $login = $_POST["login"];
     $login_unique = $jdb_handle->check_unique('login', $login);
     if ($login_unique==true) {
-      $login_error = '<font color="red">Пользователь с таким логином не зарегистрирован</font><a id="reg_btn" href="registration.html">Зарегистрироваться</a>';
+      $login_error = '<font color="red">Пользователь с таким логином не зарегистрирован</font><a id="reg_btn" href="registration.php">Зарегистрироваться</a>';
     }
   }
 

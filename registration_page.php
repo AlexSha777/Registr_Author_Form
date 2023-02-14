@@ -28,10 +28,61 @@ if (!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && $_SERVER['HTTP_X_REQUESTED_WITH
     $login = $_POST["login"];
     $login_unique = $jdb_handle->check_unique('login', $login);
     
-    $pattern_login = '/(?!.*[\W])(?!.*[\s])(?!.*[_])(?=.*[a-zA-Z0-9]){6,}/';
+    if (strlen($login) >5){
+        $login_length = true;
+    } else {
+        $login_length = false;
+    }
 
-    if (preg_match($pattern_login, $login)==false) {
-      $login_error = '<font color="red">Логин может состоять не менее чем из 6 символов(лат. буквы или цифры)</font>';
+    $login_space = preg_match('@[\s]@', $login);
+    $login_special = preg_match('@[\W]@', $login);
+    $login_underline = preg_match('@[_]@', $login);
+    $login_kir = preg_match('@[А-Яа-я]@', $login);
+    
+    $login_error = '';
+    
+    if (strlen($login) <6){
+        if (strlen($login_error)==0){
+            $login_error = 'Логин должен быть не короче 6 символов';
+        } else {
+            $login_error .= ', должен быть не короче 6 символов';
+        }
+    }
+
+    if ($login_space){
+        if (strlen($login_error)==0){
+            $login_error = 'Логин не должен содержать пробелы';
+        } else {
+            $login_error .= ', не должен содержать пробелы';
+        }
+    }
+
+    if ($login_special){
+        if (strlen($login_error)==0){
+            $login_error = 'Логин не должен содержать спец. символы';
+        } else {
+            $login_error .= ', не должен содержать спец. символы';
+        }
+    }
+
+    if ($login_underline){
+        if (strlen($login_error)==0){
+            $login_error = 'Логин не должен содержать нижнее подчеркивание';
+        } else {
+            $login_error .= ', не должен содержать нижнее подчеркивание';
+        }
+    }
+
+    if ($login_kir){
+        if (strlen($login_error)==0){
+            $login_error = 'Логин может содержать латинские буквы или цифры';
+        } else {
+            $login_error .= ', может содержать латинские буквы или цифры';
+        }
+    }
+
+    if (strlen($login_error)!=0){
+      $login_error = '<font color="red">'.$login_error.'</font>';
     }
   }
 

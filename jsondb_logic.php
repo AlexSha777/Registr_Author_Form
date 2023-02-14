@@ -29,7 +29,7 @@ class Work_jdb {
     {
 
         $lines = file_get_contents($this->file);
-        if (strlen($lines>0)) {
+        if (strlen($lines)>0) {
             $lines_array = json_decode($lines, true);
             if (empty($lines_array)==false){
                 foreach ($lines_array as $line_num => $line) {
@@ -50,7 +50,7 @@ class Work_jdb {
     public function delete_line($key_name, $value)
     {
         $lines = file_get_contents($this->file);
-        if (strlen($lines>0)) {
+        if (strlen($lines)>0) {
             $lines_array = json_decode($lines, true);
             foreach ($lines_array as $line_num => $line) {
                 
@@ -84,7 +84,7 @@ class Work_jdb {
         $data_arr = array('login' => $login, 'password' => $hash, 'email' => $email, 'name' => $name);
         
         $lines = file_get_contents($this->file);
-        if (strlen($lines>0)) {
+        if (strlen($lines)>0) {
             $lines_array = json_decode($lines, true);
             $lines_array[count($lines_array)] = $data_arr;
         } else {
